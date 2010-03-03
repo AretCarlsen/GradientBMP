@@ -6,6 +6,7 @@
 #define MAX_BRIGHTNESS 0xFF
 
 #include <stdlib.h>
+#include <math.h>
 
 // See http://easybmp.sourceforge.net/
 #include "../EasyBMP/EasyBMP.h"
@@ -15,7 +16,8 @@
 // whereas the leftmost edge occurs at current_position = 0.
 unsigned int brightnessAtPosition(float fractional_position, float brightness_coefficient, float brightness_power){
 // Conversion to nonlinear brightness
-  return brightness_coefficient * pow(1.0 - fractional_position, brightness_power) * MAX_BRIGHTNESS;
+  // Note that we want the darkest area (lowest brightness) to the right (or center, in reflected mode).
+  return round(brightness_coefficient * pow(1.0 - fractional_position, brightness_power) * MAX_BRIGHTNESS);
 }
 
 // Get a float argument
